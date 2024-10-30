@@ -1,0 +1,12 @@
+## Tutoriel : Construire un Lakehouse de A à Z
+
+Dans ce tutoriel, vous allez prendre l'exemple d'une organisation de vente au détail et construire son lakehouse de A à Z. La même approche peut être utilisée pour implémenter un lakehouse dans toute organisation, quel que soit le secteur d’activité.
+
+Vous endosserez le rôle d'un développeur au sein de la société fictive **Wide World Importers** dans le domaine du commerce de détail et accomplirez les étapes suivantes :
+
+- **Créer un espace de travail Fabric.**
+- **Créer un lakehouse.**
+- **Ingérer des données, transformer des données et les charger dans le lakehouse.**  
+   Vous pouvez également explorer OneLake, une copie de vos données en mode Lakehouse et en mode point de terminaison d’analytique SQL.
+- **Connexion à votre lakehouse à l’aide du point de terminaison d’analytique SQL** et création d'un rapport Power BI à l’aide de DirectLake pour analyser les données de vente dans différentes dimensions.
+- **Orchestration et planification de l’ingestion** et du flux de transformation des données avec un pipeline.
