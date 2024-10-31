@@ -1,9 +1,10 @@
-
+![image](https://github.com/user-attachments/assets/e5a844b9-4b5a-4973-9780-d5a1045f0240)
 
 # Créer un Lakehouse
 
 
 1- Recherchez et choisissez votre espace de travail dans la zone de recherche en haut 
+
 ![image](https://github.com/user-attachments/assets/6a98e015-0068-4abb-939c-95b9b90976ff)
 
 2- Choisissez l'expérience Data Engineering 
@@ -20,3 +21,36 @@
 
 
 4- Sélectionnez **Créer** pour créer et ouvrir le nouveau lakehouse.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
