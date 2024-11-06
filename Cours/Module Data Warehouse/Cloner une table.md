@@ -1,0 +1,119 @@
+# Cloner une table à l’aide de T-SQL
+
+Créer un clone de table dans le même schéma dans un Warehouse
+------------------------------------------------------------
+
+1-Sur le portail Fabric, dans le ruban, sélectionnez **New SQL query**.
+
+![Capture d'écran du ruban de l’écran d’accueil, montrant où sélectionner Nouvelle requête SQL.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/home-ribbon-select-new.png#lightbox)
+    
+3-Pour créer un clone de table à partir de **l’instant présent**, dans l’éditeur de requête, collez le code suivant pour créer les clones des tables `dbo.dimension_city` et `dbo.fact_sale`.
+    
+```SQL
+--Create a clone of the dbo.dimension_city table.
+CREATE TABLE [dbo].[dimension_city1] AS CLONE OF [dbo].[dimension_city];
+
+--Create a clone of the dbo.fact_sale table.
+CREATE TABLE [dbo].[fact_sale1] AS CLONE OF [dbo].[fact_sale];
+```
+
+    
+3-Sélectionnez **Execute** pour exécuter la requête. L’exécution de la requête prend quelques secondes.
+    
+![Capture d’écran montrant où sélectionner Exécuter pour exécuter votre requête pour le clone de table.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/create-clone-table.png#lightbox)
+    
+Une fois la requête terminée, les clones des tables `dimension_city1` et `fact_sale1` sont créés.
+    
+4-Chargez l’aperçu des données pour vérifier que les données ont été correctement chargées en sélectionnant la table `dimension_city1` dans **Explorer**.
+
+![Capture d’écran de l’explorateur, montrant où trouver et sélectionner la nouvelle table clonée dimension_city1.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/explorer-select-table.png#lightbox)
+    
+6-Pour créer un clone de table à partir d’un **temps passé**, utilisez la syntaxe T-SQL `AS CLONE OF ... AT`. L’exemple suivant pour créer des clones à partir d’un temps passé des tables `dbo.dimension_city` et `dbo.fact_sale`. Entrez le temps universel coordonné (UTC) pour le point dans l’horodateur auquel la table doit être clonées.
+
+```SQL
+CREATE TABLE [dbo].[fact_sale2] AS CLONE OF [dbo].[fact_sale] AT '2024-04-29T23:51:48.923';
+
+CREATE TABLE [dbo].[dimension_city2] AS CLONE OF [dbo].[dimension_city] AT '2024-04-29T23:51:48.923';
+
+```
+
+    
+6-Sélectionnez **Execute** pour exécuter la requête. L’exécution de la requête prend quelques secondes.
+    
+![Capture d’écran montrant les instructions T-SQL à exécuter pour un clone de table à un moment donné.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/create-clone-table-point-in-time.png#lightbox)
+    
+Une fois la requête terminée, la table clone `dimension_city2` et `fact_sale2` a été créée, avec des données telles qu’elles existaient dans le passé.
+    
+7. Chargez l’aperçu des données pour valider les données de manière appropriée chargées en sélectionnant la table `fact_sale2` dans Explorer.
+    
+![Capture d’écran de l’explorateur, montrant où trouver et sélectionner la nouvelle table clonée fact_sale2.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/explorer-select-cloned-table-point-in-time.png#lightbox)
+    
+8. Renommez la requête pour référence ultérieure. Cliquez avec le bouton droit sur **SQL query 2** dans **Explorer**, puis sélectionnez **Renommer**.
+    
+![image](https://github.com/user-attachments/assets/2f1df49f-8ff6-45e0-878e-b476292b76ee)
+    
+9-Tapez `Clone Table` pour changer le nom de la requête.
+    
+10-Appuyez sur **Entrée** sur le clavier ou faites une sélection n’importe où en dehors de l’onglet pour enregistrer la modification.
+    
+
+Créer un clone de table dans plusieurs schémas au sein du même Warehouse
+-----------------------------------------------------------------------
+
+1-Dans le ruban, sélectionnez **New SQL query**.
+    
+![Capture d'écran du ruban de l’écran d’accueil, montrant où sélectionner Nouvelle requête SQL.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/home-ribbon-select-new.png#lightbox)
+    
+2-Créez un schéma dans le Warehouse `WideWorldImporter` sous le nom `dbo1`. Copiez, collez et exécutez le code T-SQL suivant qui crée des clones de table à partir de l’instant présent et des tables `dbo.dimension_city` et `dbo.fact_sale` à travers les schémas du même Data Warehouse.
+    
+```SQL
+ --Create new schema within the warehouse named dbo1.
+CREATE SCHEMA dbo1;
+
+--Create a clone of dbo.fact_sale table in the dbo1 schema.
+CREATE TABLE [dbo1].[fact_sale1] AS CLONE OF [dbo].[fact_sale];
+
+--Create a clone of dbo.dimension_city table in the dbo1 schema.
+CREATE TABLE [dbo1].[dimension_city1] AS CLONE OF [dbo].[dimension_city];
+```
+
+    
+3-Sélectionnez **Exécuter** pour exécuter la requête. L’exécution de la requête prend quelques secondes.
+    
+![Capture d’écran de l’éditeur de requêtes du portail Fabric montrant où sélectionner Exécuter pour exécuter votre requête pour le clone de table.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/select-run-cross-schema.png#lightbox)
+    
+Une fois la requête terminée, les clones de `dimension_city1` et `fact_sale1` sont créés dans le schéma `dbo1`.
+    
+4-Chargez l’aperçu des données pour vérifier que les données ont été correctement chargées en sélectionnant la table `dimension_city1` sous le schéma `dbo1` dans **Explorer**.
+    
+![Capture d’écran du volet Explorer, montrant où trouver et sélectionner le clone créé dans le schéma dbo1.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/explorer-select-table.png#lightbox)
+    
+5-Pour créer un clone de table à partir d’un **moment précédent**, dans l’éditeur de requête, collez le code suivant pour créer des clones des tables `dbo.dimension_city` et `dbo.fact_sale` dans le schéma `dbo1`. Entrez le temps universel coordonné (UTC) pour le point dans l’horodateur auquel la table doit être clonées.
+    
+```SQL
+--Create a clone of the dbo.dimension_city table in the dbo1 schema.
+CREATE TABLE [dbo1].[dimension_city2] AS CLONE OF [dbo].[dimension_city] AT '2024-04-29T23:51:48.923';
+
+--Create a clone of the dbo.fact_sale table in the dbo1 schema.
+CREATE TABLE [dbo1].[fact_sale2] AS CLONE OF [dbo].[fact_sale] AT '2024-04-29T23:51:48.923';
+
+```
+
+    
+6-Sélectionnez **Exécuter** pour exécuter la requête. L’exécution de la requête prend quelques secondes.
+    
+![Capture d’écran de l’éditeur de requête du portail Fabric montrant la requête d’un clone de table inter-schémas à un moment donné.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/select-run-cross-schema-point-in-time.png#lightbox)
+    
+Une fois la requête terminée, les clones de table `fact_sale2` et `dimension_city2` sont créés dans le schéma `dbo1`, avec des données telles qu’elles existaient dans le passé.
+    
+7-Chargez l’aperçu des données pour vérifier que les données ont été correctement chargées en sélectionnant la table `fact_sale2` sous le schéma `dbo1` dans **Explorer**.
+    
+![Capture d’écran de l’Explorateur du portail Fabric montrant toutes les nouvelles tables clonées créées, notamment dbo1.fact_sale2.](https://learn.microsoft.com/fr-fr/fabric/data-warehouse/media/tutorial-clone-table/explorer-select-cloned-table-point-in-time.png#lightbox)
+    
+8-Renommez la requête pour référence ultérieure. Cliquez avec le bouton droit sur **SQL query 3** dans **Explorer**, puis sélectionnez **Renommer**.
+    
+![image](https://github.com/user-attachments/assets/a417171b-3011-4c86-ac97-e13237db4bff)
+    
+9-Tapez `Clone Table in another schema` pour changer le nom de la requête.
+    
+10-Appuyez sur **Entrée** sur le clavier ou sélectionnez n'importe où en dehors de l'onglet pour enregistrer la modification.
